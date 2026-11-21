@@ -9,7 +9,7 @@ Mini project Data Analyst & Business Intelligence (Celerates): membangun **data 
 
 ## 1. Tim
 
-**Tim 3**
+**Kelompok 3**
 
 | No | Nama | NIM |
 |----|------|-----|
