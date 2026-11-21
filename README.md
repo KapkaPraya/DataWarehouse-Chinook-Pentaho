@@ -1,6 +1,3 @@
-# DataWarehouse-Chinook-Pentaho
-Analisis Performa Penjualan Trek Musik Digital dan Tren Pendapatan Bulanan  pada Basis Data Chinook
-
 # Analisis Performa Penjualan Trek Musik Digital dan Tren Pendapatan Bulanan (Chinook)
 
 Mini project Data Analyst & Business Intelligence (Celerates): membangun **data warehouse** dan **data mart** penjualan trek musik dari database **Chinook** menggunakan **Pentaho Data Integration (PDI)** dan **PostgreSQL**, mulai dari staging, dimensi, fakta, sampai data mart.
