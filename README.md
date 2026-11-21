@@ -163,7 +163,7 @@ Data mart dibentuk dari tabel fakta dan dimensi di atas, dalam dua bentuk dengan
 
 ---
 
-## 6. Langkah Pengerjaan (6 Tahap)
+## 6. Langkah Pengerjaan 
 
 1. **Eksplorasi dan profiling data.** Memeriksa 11 tabel: jumlah baris, nilai kosong, duplikat, format, dan keutuhan relasi.
 2. **Staging.** Menyalin tabel sumber apa adanya ke schema `staging` lewat job Pentaho dinamis, lengkap dengan log jumlah baris.
