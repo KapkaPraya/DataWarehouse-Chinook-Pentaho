@@ -298,8 +298,6 @@ ORDER BY "year", month_number;
 
 ## 9. Keterbatasan
 
-## 9. Keterbatasan
-
 - **Cakupan analisis hanya pada penjualan trek.** Dari 11 tabel Chinook, hanya 7 tabel yang dibawa ke data warehouse, yaitu `invoice`, `invoice_line`, `track`, `album`, `artist`, `genre`, dan `media_type`. Tabel `customer`, `employee`, `playlist`, dan `playlist_track` tidak dipakai, sehingga analisis yang berkaitan dengan pelanggan, karyawan, atau playlist, seperti pelanggan dengan pembelian terbesar atau kinerja karyawan, belum bisa dilakukan dengan data mart ini.
 - **Kualitas data pada sumber belum sepenuhnya lengkap.** Sebanyak 977 dari 3.503 trek (sekitar 27,9%) tidak memiliki data komposer, dan nilai kosong tersebut diganti dengan `Unknown`, sehingga analisis berdasarkan komposer kurang akurat. Selain itu, ada 6 pasang trek yang nama dan albumnya sama tetapi `track_id`-nya berbeda. Keduanya tetap disimpan dan dihitung terpisah, jadi penjualan trek yang sebenarnya sama bisa terbagi ke dua baris. Kolom yang banyak kosong di tabel yang tidak dipakai (seperti `company`, `fax`, dan `billing_state`) tidak dibersihkan karena tidak dibawa ke data warehouse.
 - **Periode dan cakupan penjualan terbatas.** Data transaksi hanya mencakup 1 Januari 2021 sampai 22 Desember 2025 (60 bulan), sehingga tren di luar periode ini tidak dapat dianalisis. Sebanyak 1.519 dari 3.503 trek (sekitar 43,4%) juga belum pernah terjual, sehingga analisis performa per trek hanya mencerminkan trek yang pernah dibeli, dan data penjualan trek yang belum terjual tidak muncul di tabel fakta.
