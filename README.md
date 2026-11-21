@@ -9,7 +9,7 @@ Mini project Data Analyst & Business Intelligence (Celerates): membangun **data 
 
 ## 1. Tim
 
-**Kelompok 3**
+**Tim 3**
 
 | No | Nama | NIM |
 |----|------|-----|
@@ -21,7 +21,7 @@ Mini project Data Analyst & Business Intelligence (Celerates): membangun **data 
 
 ---
 
-## 2. Latar Belakang dan Pertanyaan Bisnis
+## 2. Latar Belakang
 
 Data penjualan toko musik digital seperti Chinook tersimpan di banyak tabel operasional (OLTP) yang terpisah: `invoice`, `invoice_line`, `track`, `album`, `artist`, `genre`, dan `media_type`. Untuk menjawab pertanyaan sederhana seperti "berapa pendapatan bulan ini?" atau "genre apa yang paling laku?", kita harus menggabungkan banyak tabel sekaligus. Hal ini merepotkan dan sulit dipakai untuk analisis berulang.
 
