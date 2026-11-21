@@ -301,3 +301,37 @@ ORDER BY "year", month_number;
 - **Cakupan hanya penjualan trek.** Hanya 7 dari 11 tabel yang dipakai, sehingga analisis per pelanggan, karyawan, atau playlist belum bisa dilakukan.
 - **Kualitas data sumber belum sempurna.** Sebanyak 977 trek (sekitar 27,9%) tidak punya komposer dan diisi `Unknown`. Ada juga 6 pasang trek dengan nama dan album sama tetapi `track_id` berbeda, yang tetap dihitung terpisah.
 - **Periode dan cakupan penjualan terbatas.** Data hanya mencakup Januari 2021 sampai Desember 2025 (60 bulan), dan 1.519 trek (43,4%) belum pernah terjual sehingga tidak muncul di tabel fakta.
+
+## 10. Cara Menjalankan
+
+**Prasyarat**
+- PostgreSQL untuk database sumber, staging, dan data warehouse
+- Pentaho Data Integration (Spoon) 10.x beserta driver JDBC PostgreSQL
+- File dump database Chinook untuk PostgreSQL (`Chinook_PostgreSql.sql`)
+
+**Langkah**
+
+1. **Restore Chinook.** Buat database sumber di PostgreSQL, lalu jalankan file `Chinook_PostgreSql.sql` pada database tersebut.
+2. **Siapkan database staging** (`staging_chinook`) dengan schema `staging` dan `log`. Buat struktur tabel kosong di `staging` sesuai 11 tabel Chinook, lalu buat tabel `log.staging_log` dan `log.log_table_entry` (strukturnya ada di bagian 7.1).
+3. **Siapkan database data warehouse** dengan schema untuk dimensi dan fakta, serta schema `datamart`. Tabel dimensi, fakta, dan data mart dapat dibuat lewat tombol **SQL** di step Table output atau Insert / update pada Pentaho.
+4. **Atur koneksi di Pentaho** untuk database sumber, staging, dan data warehouse. Sesuaikan host, port, nama database, user, dan password.
+5. **Jalankan staging.** Jalankan job `main_staging_chinook`. Setelah selesai, periksa `log.staging_log`, dan kolom `logical` harus berisi `Success` untuk semua tabel.
+6. **Jalankan dimensi.** Jalankan transformation `dim_track`, `dim_album`, `dim_artist`, `dim_genre`, `dim_media_type`, dan `dim_date`. Semuanya harus selesai sebelum tabel fakta.
+7. **Jalankan tabel fakta.** Jalankan transformation `fact_invoice`.
+8. **Jalankan data mart.** Jalankan `datamart_track_monthly`, lalu `datamart_revenue_monthly`.
+9. **Validasi hasil.** Bandingkan dengan angka berikut:
+   - `fact_invoice` berisi **2.240** baris.
+   - Total `jumlah_terjual` adalah **2.240** dan total `revenue` adalah **2.328,60**.
+   - `datamart_revenue_monthly` berisi **60** baris (satu per bulan, Januari 2021 sampai Desember 2025).
+
+Untuk memuat ulang seluruh tabel staging, kosongkan `log.log_table_entry` terlebih dahulu. Jika dimensi dimuat ulang, jalankan ulang fakta dan data mart supaya surrogate key tetap sesuai.
+
+---
+
+## 11. Pelajaran yang Diperoleh
+
+- **Memahami proses ETL di Pentaho secara lebih mendalam**, khususnya menghubungkan database, membaca data dari berbagai tabel, memindahkannya ke staging, lalu membangun dimensi, fakta, dan data mart.
+- **Ketelitian dalam mengatur alur transformation itu penting.** Koneksi, pemetaan kolom, dan urutan proses harus tepat agar data berpindah tanpa kesalahan atau duplikasi.
+- **Pesan error adalah petunjuk.** Menguji proses berulang kali dan membaca pesan kesalahan membantu menemukan penyebab masalah dan langkah perbaikannya.
+- **Validasi data wajib dilakukan.** Membandingkan jumlah baris sumber dan staging, serta memeriksa total hasil akhir, memastikan data berpindah dengan benar.
+- **Staging sebaiknya dibiarkan sama dengan sumber.** Pembersihan dilakukan di tahap berikutnya, sehingga data mentah masih bisa diperiksa kalau ada yang salah.
